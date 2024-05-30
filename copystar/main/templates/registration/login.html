@@ -1,0 +1,28 @@
+{% extends 'main/base.html' %}
+{% block title %}Авторизация{% endblock %}
+{% load static %}
+{% block content %}
+<div class="containter" style="display: flex;
+  justify-content: center;">
+        <div class="logo">
+            <img src="{% static 'main/img/logo.svg' %}" style="width: 300px;
+                height: 300px;" alt=""></a>
+        </div>
+        <form class="p-3 mt-3" method="post">
+            {% csrf_token %}
+            <div class="form-field d-flex align-items-center">
+                <span class="far fa-user"></span>
+                <input type="text" name="username" id="userName" placeholder="Username">
+            </div>
+            <br>
+            <div class="form-field d-flex align-items-center">
+                <span class="fas fa-key"></span>
+                <input type="password" name="password" id="pwd" placeholder="Password">
+            </div>
+            {{ form.errors }}
+            <br>
+            <button>Войти</button>
+            <p>У вас нет аккаунта? <a href="{% url 'register' %}"> Зарегистрируйтесь сейчас!</a></p>
+        </form>
+    </div>
+{% endblock %}

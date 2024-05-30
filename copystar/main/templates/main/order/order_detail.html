@@ -1,0 +1,44 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+    Обработка заказа
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Заказы пользователя:</h1>
+        {% if orders %}
+            <div class="row">
+                {% for order in orders %}
+                    <div class="col-md-6">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">Заказ пользователя: {{ order.user }}</h5>
+                                <p class="card-text">Статус заказа: {{ order.status }}</p>
+                                {% if order.status == 'New' %}
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="order_id" value="{{ order.id }}">
+                                        <button type="submit" name="action" value="approve" class="btn btn-success">Одобрить</button>
+                                        <button type="submit" name="action" value="reject" class="btn btn-danger">Отклонить</button><br><br>
+                                        <label for="user_message">Сообщение администратора:</label><br>
+                                        <textarea name="admin_message" id="admin_message" rows="3" cols="50"></textarea><br><br>
+                                    </form>
+                                {% endif %}
+                                <p class="card-text">Сообщение администратора: {{ order.user_message }}</p>
+                                <h6 class="card-subtitle mb-2 text-muted">Товары в заказе:</h6>
+                                <ul class="list-group list-group-flush">
+                                    {% for item in order.items.all %}
+                                        <li class="list-group-item">{{ item.product.name }} - {{ item.quantity }} шт.</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>Пока заказов нет</p>
+        {% endif %}
+    </div>
+{% endblock %}
