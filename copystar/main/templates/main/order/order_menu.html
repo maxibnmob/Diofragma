@@ -1,0 +1,41 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+    Ваши заказы
+{% endblock %}
+
+{% block content %}
+
+
+    <div class="container">
+        <h1>Ваши заказы</h1>
+        {% if orders %}
+            <div class="row">
+                {% for order in orders %}
+                    <div class="col-md-6">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">Заказ №{{ order.id }}</h5>
+                                <p class="card-text">Дата создания: {{ order.created_at }}</p>
+                                <p class="card-text">Статус: {{ order.status }}</p>
+                                <p class="card-text">Сообщение от администратора: {{ order.user_message }}</p>
+                                <h6 class="card-subtitle mb-2 text-muted">Товары в заказе:</h6>
+                                <ul class="list-group list-group-flush">
+                                    <p class="card-text">Позвоните по номеру + 7 (800) 555-35-35 чтобы узнать о доставке и способе оплаты </p>
+                                    {% for order_item in order.items.all %}
+                                        <li class="list-group-item">
+                                            {{ order_item.product.name }} - {{ order_item.quantity }}
+
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>Пока у вас нет заказов.</p>
+        {% endif %}
+    </div>
+{% endblock %}
